@@ -1,4 +1,4 @@
-# querystring-in-liquid
+# Querystring in liquid Use
 
             {%- if canonical_url != blank  -%}
               <link rel="canonical" href="{{ canonical_url }}{%- render 'querystring-in-liquid' -%}">
