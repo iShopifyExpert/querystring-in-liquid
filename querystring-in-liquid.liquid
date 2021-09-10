@@ -1,0 +1,26 @@
+{%- comment -%}
+
+Check my code 
+How to get the item parameter value in the URL, If you need any parameter in the URL.
+Example URL : .../collections/collection-title?&item=50&sort_by=title-ascending
+param = 'item' //parameter key
+Output: 10
+
+{%- endcomment -%}
+{%- capture contentForQuerystring -%}{{ content_for_header }}{%- endcapture -%}
+{%- assign pageUrl = contentForQuerystring | split:'"pageurl":"' | last | split:'"' | first | split:'.myshopify.com' | last | replace:'\/','/' | replace:'%20',' ' | replace:'\u0026','&' -%}
+{%- assign itemShow = '' -%}
+{%- for i in (1..1) -%}
+   {%- unless pageUrl contains "?" -%}{% break %}{%- endunless -%}
+   {%- assign pageQuerystring = pageUrl | split:'?' | last -%}
+   {%- assign parts = pageQuerystring | split:'&' -%}
+   {%- for part in parts -%}
+     {%- assign keyAndValue = part | split:'=' -%}
+     {%- if keyAndValue.size > 1 -%}
+       {% if keyAndValue[0] == param %}
+          {%- assign itemShow = keyAndValue[1] | plus: 0 -%}
+       {% endif%}
+     {%- endif -%}
+   {%- endfor -%}
+{%- endfor -%}
+?{{- pageUrl | split:'?' | last -}}
